@@ -1,59 +1,551 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>XyeCraft</title>
+  <meta name="description" content="XyeCraft is a block-building survival game for PC. Download the latest installer, view patch notes, and get started in minutes." />
   <style>
+    :root {
+      --bg: #08110b;
+      --bg2: #0d1810;
+      --panel: rgba(18, 27, 20, 0.88);
+      --panel-strong: rgba(14, 22, 16, 0.96);
+      --text: #ecfdf3;
+      --muted: #b7cbbb;
+      --line: rgba(144, 238, 144, 0.14);
+      --green: #59d37d;
+      --green-2: #2fb35d;
+      --green-3: #1d7a3d;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #111;
-      color: #eee;
-      line-height: 1.6;
+      margin: 0;
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(84, 180, 104, 0.18), transparent 32%),
+        linear-gradient(180deg, #0a120c 0%, #08110b 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    h1 {
-      color: #6ee7b7;
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.08;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
     }
-    .button {
-      display: inline-block;
-      padding: 12px 20px;
-      background: #22c55e;
-      color: white;
+
+    .floating-glow {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(89, 211, 125, 0.16), transparent 65%);
+      filter: blur(18px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow-1 {
+      top: -90px;
+      left: -120px;
+    }
+
+    .glow-2 {
+      right: -120px;
+      top: 220px;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .brand-badge {
+      width: 18px;
+      height: 18px;
+      background: linear-gradient(180deg, #7df2a4, #2fb35d);
+      border-radius: 4px;
+      box-shadow: 0 0 0 3px rgba(89, 211, 125, 0.12);
+      position: relative;
+    }
+
+    .brand-badge::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.22);
+      border-radius: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted);
       text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
+      padding: 10px 14px;
+      border-radius: 999px;
+      transition: 0.2s ease;
     }
-    .card {
-      background: #1b1b1b;
-      padding: 20px;
-      border-radius: 12px;
-      margin-top: 20px;
+
+    .nav-links a:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: stretch;
+      padding: 28px 0 22px;
+    }
+
+    .hero-card,
+    .panel,
+    .feature,
+    .note {
+      background: linear-gradient(180deg, rgba(26, 38, 29, 0.92), rgba(15, 23, 17, 0.94));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-card {
+      padding: 34px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(89, 211, 125, 0.12), transparent 40%),
+        linear-gradient(180deg, transparent, rgba(255,255,255,0.02));
+      pointer-events: none;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(89, 211, 125, 0.12);
+      color: #bff7cf;
+      border: 1px solid rgba(89, 211, 125, 0.22);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.06rem;
+      line-height: 1.75;
+      margin: 0;
+      max-width: 62ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 26px;
+    }
+
+    .button,
+    .button-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 14px;
+      padding: 14px 18px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .button {
+      background: linear-gradient(180deg, #68e18d, #2fb35d);
+      color: #08110b;
+      box-shadow: 0 14px 28px rgba(47, 179, 93, 0.28);
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px rgba(47, 179, 93, 0.38);
+    }
+
+    .button-secondary {
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .button-secondary:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 18px;
+    }
+
+    .panel {
+      padding: 22px;
+    }
+
+    .mini-label {
+      color: #bff7cf;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
+
+    .stat {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0 0 6px;
+    }
+
+    .panel p {
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    .showcase {
+      margin: 20px 0 8px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .feature {
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature::after {
+      content: "";
+      position: absolute;
+      right: -18px;
+      top: -18px;
+      width: 76px;
+      height: 76px;
+      background:
+        linear-gradient(180deg, rgba(89, 211, 125, 0.26), rgba(89, 211, 125, 0.04));
+      border-radius: 18px;
+      transform: rotate(14deg);
+    }
+
+    .feature h3 {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+    }
+
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .section {
+      margin: 34px 0 0;
+    }
+
+    .section-title {
+      margin: 0 0 16px;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .note {
+      padding: 24px;
+    }
+
+    .note h2 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+
+    .note p,
+    .note li {
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .steps {
+      margin: 14px 0 0;
+      padding-left: 18px;
+    }
+
+    .footer {
+      padding: 34px 0 46px;
+      color: #9bb09f;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: #d8f7df;
+      font-size: 0.92rem;
+    }
+
+    .logo-block {
+      display: inline-grid;
+      grid-template-columns: repeat(2, 16px);
+      grid-template-rows: repeat(2, 16px);
+      gap: 4px;
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+
+    .logo-block span {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      display: block;
+      background: linear-gradient(180deg, #7df2a4, #2b8f4d);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+    }
+
+    @media (max-width: 920px) {
+      .hero,
+      .showcase,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .hero-card,
+      .panel,
+      .feature,
+      .note {
+        border-radius: 18px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container {
+        width: min(100% - 20px, 1120px);
+      }
+
+      .hero-card,
+      .panel,
+      .feature,
+      .note {
+        padding: 18px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .button,
+      .button-secondary {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>XyeCraft</h1>
-  <p>A block-building survival game for PC.</p>
+  <div class="floating-glow glow-1"></div>
+  <div class="floating-glow glow-2"></div>
 
-  <div class="card">
-    <h2>Download</h2>
-    <p>Get the latest Windows installer below.</p>
-    <a class="button" href="https://github.com/Xyqc/Xyecraft/releases/latest">
-      Download Installer
-    </a>
-  </div>
+  <div class="container">
+    <header class="nav">
+      <div class="brand">
+        <div class="brand-badge"></div>
+        <span>XyeCraft</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#download">Download</a>
+        <a href="#install">Install</a>
+        <a href="#patch-notes">Patch Notes</a>
+      </nav>
+    </header>
 
-  <div class="card">
-    <h2>Installation</h2>
-    <p>Download the installer, run it, and follow the setup steps.</p>
-  </div>
+    <main>
+      <section class="hero">
+        <div class="hero-card">
+          <div class="tag">Windows PC • Survival Sandbox • Beta</div>
+          <h1>
+            Build.<br />
+            Explore.<br />
+            Survive.
+          </h1>
+          <p>
+            XyeCraft is a modern block-building survival game for PC with a clean desktop experience,
+            fast setup, and a familiar voxel-inspired vibe. Download the latest installer and jump in.
+          </p>
 
-  <div class="card">
-    <h2>Patch Notes</h2>
-    <p>Version 1.0.0 Beta: Initial public release.</p>
+          <div class="hero-actions">
+            <a class="button" id="download" href="https://github.com/Xyqc/Xyecraft/releases/latest">
+              Download Installer
+            </a>
+            <a class="button-secondary" href="#install">
+              How to Install
+            </a>
+          </div>
+
+          <div class="pill-row">
+            <span class="pill">Easy installer</span>
+            <span class="pill">Windows ready</span>
+            <span class="pill">Voxel-inspired style</span>
+          </div>
+        </div>
+
+        <div class="hero-side">
+          <div class="panel">
+            <div class="mini-label">Current Release</div>
+            <p class="stat">v1.0.0 Beta</p>
+            <p>Initial public release with the first downloadable Windows installer.</p>
+          </div>
+
+          <div class="panel">
+            <div class="mini-label">What to Expect</div>
+            <p>
+              A polished launcher-style install flow, quick setup, and a subtle blocky aesthetic that
+              nods to classic sandbox games without overdoing it.
+            </p>
+          </div>
+
+          <div class="panel">
+            <div class="mini-label">Platform</div>
+            <p>Designed for Windows PCs. Grab the latest build from GitHub Releases.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="showcase">
+        <div class="feature">
+          <h3>Blocky atmosphere</h3>
+          <p>
+            Crisp edges, grassy greens, and layered panels give the site a soft voxel-game feel.
+          </p>
+        </div>
+        <div class="feature">
+          <h3>Modern layout</h3>
+          <p>
+            Clean spacing, glassy cards, and responsive sections make everything feel current and easy to use.
+          </p>
+        </div>
+        <div class="feature">
+          <h3>Quick download flow</h3>
+          <p>
+            Straight to the latest release, so players always land on the newest installer.
+          </p>
+        </div>
+      </section>
+
+      <section class="section grid-2">
+        <div class="note" id="install">
+          <h2>Installation</h2>
+          <p>Getting started only takes a minute:</p>
+          <ol class="steps">
+            <li>Click the download button to open the latest GitHub release.</li>
+            <li>Download the Windows installer.</li>
+            <li>Run the setup file and follow the installer steps.</li>
+            <li>Launch XyeCraft from your desktop or Start Menu shortcut.</li>
+          </ol>
+        </div>
+
+        <div class="note" id="patch-notes">
+          <h2>Patch Notes</h2>
+          <p><strong>Version 1.0.0 Beta</strong></p>
+          <p>
+            Initial public release. Basic installer support, first downloadable PC build, and the
+            first version of the official XyeCraft landing page.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        <span class="logo-block">
+          <span></span><span></span><span></span><span></span>
+        </span>
+        Xyki Games © 2026
+      </p>
+    </footer>
   </div>
 </body>
 </html>
