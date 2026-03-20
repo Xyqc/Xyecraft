@@ -17,6 +17,7 @@
       --green: #59d37d;
       --green-2: #2fb35d;
       --green-3: #1d7a3d;
+      --accent: #9ff0b7;
       --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
       --radius: 22px;
     }
@@ -104,6 +105,7 @@
       border-radius: 4px;
       box-shadow: 0 0 0 3px rgba(89, 211, 125, 0.12);
       position: relative;
+      flex-shrink: 0;
     }
 
     .brand-badge::after {
@@ -144,7 +146,8 @@
     .hero-card,
     .panel,
     .feature,
-    .note {
+    .note,
+    .banner {
       background: linear-gradient(180deg, rgba(26, 38, 29, 0.92), rgba(15, 23, 17, 0.94));
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -267,6 +270,20 @@
       line-height: 1.7;
     }
 
+    .banner {
+      margin-top: 8px;
+      padding: 18px 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .banner strong {
+      color: var(--accent);
+    }
+
     .showcase {
       margin: 20px 0 8px;
       display: grid;
@@ -308,12 +325,6 @@
       margin: 34px 0 0;
     }
 
-    .section-title {
-      margin: 0 0 16px;
-      font-size: 1.5rem;
-      letter-spacing: -0.02em;
-    }
-
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -335,9 +346,14 @@
       line-height: 1.75;
     }
 
-    .steps {
+    .steps,
+    .patch-list {
       margin: 14px 0 0;
       padding-left: 18px;
+    }
+
+    .patch-list li {
+      margin-bottom: 8px;
     }
 
     .footer {
@@ -397,7 +413,8 @@
       .hero-card,
       .panel,
       .feature,
-      .note {
+      .note,
+      .banner {
         border-radius: 18px;
       }
     }
@@ -410,7 +427,8 @@
       .hero-card,
       .panel,
       .feature,
-      .note {
+      .note,
+      .banner {
         padding: 18px;
       }
 
@@ -457,7 +475,7 @@
           </p>
 
           <div class="hero-actions">
-            <a class="button" id="download" href="https://github.com/Xyqc/Xyecraft/releases/latest">
+            <a class="button" id="download" href="https://github.com/Xyqc/Xyecraft/releases/download/new/XyecraftInstaller.exe" target="_blank" rel="noopener noreferrer">
               Download Installer
             </a>
             <a class="button-secondary" href="#install">
@@ -494,17 +512,24 @@
         </div>
       </section>
 
+      <div class="banner">
+        <div>
+          <strong>Latest update:</strong> sheep colors, direct connect, improved animation, and rendering optimizations.
+        </div>
+        <a class="button-secondary" href="#patch-notes">See patch notes</a>
+      </div>
+
       <section class="showcase">
         <div class="feature">
-          <h3>Blocky atmosphere</h3>
+          <h3>Inspired by Minecraft Pocket Edition</h3>
           <p>
-            Crisp edges, grassy greens, and layered panels give the site a soft voxel-game feel.
+            Built with inspiration from Minecraft Pocket Edition and adapted into a desktop PC experience.
           </p>
         </div>
         <div class="feature">
-          <h3>Modern layout</h3>
+          <h3>Modern PC port feel</h3>
           <p>
-            Clean spacing, glassy cards, and responsive sections make everything feel current and easy to use.
+            Clean spacing, glassy cards, and responsive sections make the project feel modern while keeping a blocky charm.
           </p>
         </div>
         <div class="feature">
@@ -530,10 +555,16 @@
         <div class="note" id="patch-notes">
           <h2>Patch Notes</h2>
           <p><strong>Version 1.0.0 Beta</strong></p>
-          <p>
-            Initial public release. Basic installer support, first downloadable PC build, and the
-            first version of the official XyeCraft landing page.
-          </p>
+          <ul class="patch-list">
+            <li>Fixed sign typing</li>
+            <li>Fixed lighting</li>
+            <li>Fixed variable shadowing</li>
+            <li>Added sheep colors</li>
+            <li>Optimized water rendering</li>
+            <li>Improved animation</li>
+            <li>Direct connect feature</li>
+            <li>New sheep breeding</li>
+          </ul>
         </div>
       </section>
     </main>
