@@ -3,23 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>XyeCraft</title>
-  <meta name="description" content="XyeCraft is a block-building survival game for PC. Download the latest installer, view patch notes, and get started in minutes." />
+  <title>Xyecraft</title>
+  <meta name="description" content="Download Xyecraft for Windows, check the latest update notes, and get started with the installer." />
   <style>
     :root {
-      --bg: #08110b;
-      --bg2: #0d1810;
-      --panel: rgba(18, 27, 20, 0.88);
-      --panel-strong: rgba(14, 22, 16, 0.96);
-      --text: #ecfdf3;
+      --bg: #061009;
+      --bg-deep: #040a06;
+      --panel: rgba(16, 25, 18, 0.84);
+      --panel-2: rgba(22, 34, 24, 0.92);
+      --text: #eefdf2;
       --muted: #b7cbbb;
-      --line: rgba(144, 238, 144, 0.14);
-      --green: #59d37d;
-      --green-2: #2fb35d;
-      --green-3: #1d7a3d;
-      --accent: #9ff0b7;
+      --line: rgba(151, 238, 161, 0.15);
+      --line-strong: rgba(151, 238, 161, 0.28);
+      --green: #63dc88;
+      --green-dark: #2c8f4d;
+      --green-soft: #bdf6cb;
       --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-      --radius: 22px;
+      --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.25);
+      --radius: 24px;
     }
 
     * {
@@ -34,11 +35,12 @@
       margin: 0;
       font-family: Inter, Segoe UI, Arial, sans-serif;
       color: var(--text);
-      background:
-        radial-gradient(circle at top, rgba(84, 180, 104, 0.18), transparent 32%),
-        linear-gradient(180deg, #0a120c 0%, #08110b 100%);
       min-height: 100vh;
       overflow-x: hidden;
+      background:
+        radial-gradient(circle at top, rgba(92, 197, 113, 0.15), transparent 30%),
+        linear-gradient(180deg, #0a140d 0%, #071009 48%, #040905 100%);
+      position: relative;
     }
 
     body::before {
@@ -46,37 +48,66 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      opacity: 0.08;
+      opacity: 0.05;
       background-image:
         linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
-      background-size: 32px 32px;
-      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+      background-size: 28px 28px;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto 0 0 0;
+      height: 240px;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, transparent, rgba(0,0,0,0.28)),
+        repeating-linear-gradient(
+          90deg,
+          rgba(25, 50, 28, 0.55) 0 52px,
+          rgba(20, 39, 22, 0.55) 52px 104px
+        );
+      clip-path: polygon(0 42%, 6% 34%, 12% 42%, 18% 26%, 24% 44%, 31% 30%, 38% 46%, 45% 28%, 52% 40%, 60% 20%, 68% 38%, 76% 24%, 84% 46%, 92% 31%, 100% 40%, 100% 100%, 0 100%);
+      opacity: 0.55;
+      z-index: 0;
     }
 
     .floating-glow {
       position: fixed;
-      width: 420px;
-      height: 420px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(89, 211, 125, 0.16), transparent 65%);
       filter: blur(18px);
       pointer-events: none;
       z-index: 0;
     }
 
     .glow-1 {
-      top: -90px;
+      width: 420px;
+      height: 420px;
+      top: -100px;
       left: -120px;
+      background: radial-gradient(circle, rgba(99, 220, 136, 0.14), transparent 68%);
     }
 
     .glow-2 {
-      right: -120px;
-      top: 220px;
+      width: 380px;
+      height: 380px;
+      right: -100px;
+      top: 180px;
+      background: radial-gradient(circle, rgba(73, 177, 98, 0.12), transparent 70%);
+    }
+
+    .glow-3 {
+      width: 320px;
+      height: 320px;
+      left: 20%;
+      bottom: 60px;
+      background: radial-gradient(circle, rgba(189, 246, 203, 0.08), transparent 70%);
     }
 
     .container {
-      width: min(1120px, calc(100% - 32px));
+      width: min(1140px, calc(100% - 32px));
       margin: 0 auto;
       position: relative;
       z-index: 1;
@@ -99,21 +130,19 @@
     }
 
     .brand-badge {
-      width: 18px;
-      height: 18px;
-      background: linear-gradient(180deg, #7df2a4, #2fb35d);
-      border-radius: 4px;
-      box-shadow: 0 0 0 3px rgba(89, 211, 125, 0.12);
+      width: 22px;
+      height: 22px;
       position: relative;
-      flex-shrink: 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 2px;
     }
 
-    .brand-badge::after {
-      content: "";
-      position: absolute;
-      inset: 4px;
-      border: 1px solid rgba(0, 0, 0, 0.22);
-      border-radius: 2px;
+    .brand-badge span {
+      background: linear-gradient(180deg, #89f2ab, #2ea957);
+      border-radius: 3px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
     }
 
     .nav-links {
@@ -137,10 +166,10 @@
 
     .hero {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
+      grid-template-columns: 1.12fr 0.88fr;
       gap: 28px;
       align-items: stretch;
-      padding: 28px 0 22px;
+      padding: 26px 0 18px;
     }
 
     .hero-card,
@@ -148,62 +177,114 @@
     .feature,
     .note,
     .banner {
-      background: linear-gradient(180deg, rgba(26, 38, 29, 0.92), rgba(15, 23, 17, 0.94));
+      background:
+        linear-gradient(180deg, rgba(30, 45, 33, 0.88), rgba(13, 20, 15, 0.94));
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-    }
-
-    .hero-card {
-      padding: 34px;
+      backdrop-filter: blur(14px);
       position: relative;
       overflow: hidden;
     }
 
-    .hero-card::before {
+    .hero-card::before,
+    .panel::before,
+    .feature::before,
+    .note::before,
+    .banner::before {
       content: "";
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(135deg, rgba(89, 211, 125, 0.12), transparent 40%),
-        linear-gradient(180deg, transparent, rgba(255,255,255,0.02));
+        linear-gradient(135deg, rgba(99, 220, 136, 0.10), transparent 38%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), transparent 22%);
       pointer-events: none;
     }
+
+    .hero-card {
+      padding: 38px;
+      min-height: 460px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 150px;
+      background:
+        linear-gradient(180deg, transparent, rgba(0,0,0,0.24)),
+        repeating-linear-gradient(
+          90deg,
+          rgba(56, 101, 60, 0.65) 0 46px,
+          rgba(46, 83, 49, 0.65) 46px 92px
+        );
+      clip-path: polygon(0 55%, 10% 45%, 20% 56%, 30% 40%, 40% 58%, 52% 42%, 62% 60%, 72% 38%, 82% 54%, 92% 34%, 100% 44%, 100% 100%, 0 100%);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .pixel-corners {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .pixel-corners span {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(189, 246, 203, 0.22);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .pixel-corners span:nth-child(1) { top: 12px; left: 12px; border-right: 0; border-bottom: 0; }
+    .pixel-corners span:nth-child(2) { top: 12px; right: 12px; border-left: 0; border-bottom: 0; }
+    .pixel-corners span:nth-child(3) { bottom: 12px; left: 12px; border-right: 0; border-top: 0; }
+    .pixel-corners span:nth-child(4) { bottom: 12px; right: 12px; border-left: 0; border-top: 0; }
 
     .tag {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(89, 211, 125, 0.12);
-      color: #bff7cf;
-      border: 1px solid rgba(89, 211, 125, 0.22);
+      background: rgba(99, 220, 136, 0.12);
+      color: var(--green-soft);
+      border: 1px solid rgba(99, 220, 136, 0.24);
       padding: 8px 12px;
       border-radius: 999px;
       font-size: 0.9rem;
       margin-bottom: 18px;
+      width: fit-content;
+      box-shadow: var(--shadow-soft);
     }
 
     h1 {
-      margin: 0 0 12px;
-      font-size: clamp(2.8rem, 7vw, 5rem);
+      margin: 0 0 14px;
+      font-size: clamp(3rem, 7vw, 5.4rem);
       line-height: 0.92;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.05em;
+      text-shadow: 0 6px 18px rgba(0,0,0,0.28);
     }
 
     .hero p {
       color: var(--muted);
-      font-size: 1.06rem;
-      line-height: 1.75;
+      font-size: 1.04rem;
+      line-height: 1.8;
       margin: 0;
-      max-width: 62ch;
+      max-width: 64ch;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-actions {
       display: flex;
       gap: 14px;
       flex-wrap: wrap;
-      margin-top: 26px;
+      margin-top: 28px;
+      position: relative;
+      z-index: 1;
     }
 
     .button,
@@ -216,29 +297,66 @@
       font-weight: 700;
       border-radius: 14px;
       padding: 14px 18px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .button::before,
+    .button-secondary::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%);
+      transform: translateX(-120%);
+      transition: transform 0.5s ease;
+    }
+
+    .button:hover::before,
+    .button-secondary:hover::before {
+      transform: translateX(120%);
     }
 
     .button {
-      background: linear-gradient(180deg, #68e18d, #2fb35d);
+      background: linear-gradient(180deg, #76ea98, #31b25d);
       color: #08110b;
-      box-shadow: 0 14px 28px rgba(47, 179, 93, 0.28);
+      box-shadow: 0 14px 28px rgba(49, 178, 93, 0.30);
     }
 
     .button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 18px 34px rgba(47, 179, 93, 0.38);
+      box-shadow: 0 18px 34px rgba(49, 178, 93, 0.40);
     }
 
     .button-secondary {
       color: var(--text);
       background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.09);
     }
 
     .button-secondary:hover {
       transform: translateY(-2px);
       background: rgba(255,255,255,0.08);
+      border-color: rgba(189, 246, 203, 0.22);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #ddf9e4;
+      font-size: 0.92rem;
+      box-shadow: var(--shadow-soft);
     }
 
     .hero-side {
@@ -251,27 +369,33 @@
     }
 
     .mini-label {
-      color: #bff7cf;
+      color: var(--green-soft);
       font-size: 0.82rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
       margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
     }
 
     .stat {
-      font-size: 1.8rem;
+      font-size: 1.85rem;
       font-weight: 800;
       margin: 0 0 6px;
+      position: relative;
+      z-index: 1;
     }
 
     .panel p {
       color: var(--muted);
       margin: 0;
       line-height: 1.7;
+      position: relative;
+      z-index: 1;
     }
 
     .banner {
-      margin-top: 8px;
+      margin-top: 10px;
       padding: 18px 22px;
       display: flex;
       flex-wrap: wrap;
@@ -281,44 +405,47 @@
     }
 
     .banner strong {
-      color: var(--accent);
+      color: var(--green-soft);
     }
 
     .showcase {
-      margin: 20px 0 8px;
+      margin: 22px 0 8px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
     }
 
     .feature {
-      padding: 22px;
-      position: relative;
-      overflow: hidden;
+      padding: 24px;
     }
 
     .feature::after {
       content: "";
       position: absolute;
-      right: -18px;
-      top: -18px;
-      width: 76px;
-      height: 76px;
+      right: -16px;
+      top: -16px;
+      width: 88px;
+      height: 88px;
       background:
-        linear-gradient(180deg, rgba(89, 211, 125, 0.26), rgba(89, 211, 125, 0.04));
+        linear-gradient(180deg, rgba(99, 220, 136, 0.22), rgba(99, 220, 136, 0.04));
       border-radius: 18px;
       transform: rotate(14deg);
+      pointer-events: none;
     }
 
     .feature h3 {
       margin: 0 0 10px;
       font-size: 1.1rem;
+      position: relative;
+      z-index: 1;
     }
 
     .feature p {
       margin: 0;
       color: var(--muted);
-      line-height: 1.7;
+      line-height: 1.75;
+      position: relative;
+      z-index: 1;
     }
 
     .section {
@@ -337,13 +464,17 @@
 
     .note h2 {
       margin: 0 0 10px;
-      font-size: 1.2rem;
+      font-size: 1.24rem;
+      position: relative;
+      z-index: 1;
     }
 
     .note p,
     .note li {
       color: var(--muted);
       line-height: 1.75;
+      position: relative;
+      z-index: 1;
     }
 
     .steps,
@@ -357,26 +488,10 @@
     }
 
     .footer {
-      padding: 34px 0 46px;
+      padding: 38px 0 54px;
       color: #9bb09f;
       font-size: 0.95rem;
       text-align: center;
-    }
-
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .pill {
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.07);
-      color: #d8f7df;
-      font-size: 0.92rem;
     }
 
     .logo-block {
@@ -397,7 +512,7 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
     }
 
-    @media (max-width: 920px) {
+    @media (max-width: 940px) {
       .hero,
       .showcase,
       .grid-2 {
@@ -409,19 +524,11 @@
         align-items: flex-start;
         gap: 16px;
       }
-
-      .hero-card,
-      .panel,
-      .feature,
-      .note,
-      .banner {
-        border-radius: 18px;
-      }
     }
 
     @media (max-width: 560px) {
       .container {
-        width: min(100% - 20px, 1120px);
+        width: min(100% - 20px, 1140px);
       }
 
       .hero-card,
@@ -430,6 +537,11 @@
       .note,
       .banner {
         padding: 18px;
+        border-radius: 18px;
+      }
+
+      .hero-card {
+        min-height: auto;
       }
 
       .hero-actions {
@@ -440,18 +552,25 @@
       .button-secondary {
         width: 100%;
       }
+
+      h1 {
+        font-size: clamp(2.5rem, 14vw, 4rem);
+      }
     }
   </style>
 </head>
 <body>
   <div class="floating-glow glow-1"></div>
   <div class="floating-glow glow-2"></div>
+  <div class="floating-glow glow-3"></div>
 
   <div class="container">
     <header class="nav">
       <div class="brand">
-        <div class="brand-badge"></div>
-        <span>XyeCraft</span>
+        <div class="brand-badge">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <span>Xyecraft</span>
       </div>
       <nav class="nav-links">
         <a href="#download">Download</a>
@@ -463,15 +582,20 @@
     <main>
       <section class="hero">
         <div class="hero-card">
-          <div class="tag">Windows PC • Survival Sandbox • Beta</div>
+          <div class="pixel-corners">
+            <span></span><span></span><span></span><span></span>
+          </div>
+
+          <div class="tag">Windows PC • Beta</div>
+
           <h1>
-            Build.<br />
-            Explore.<br />
-            Survive.
+            Xyecraft<br />
+            for PC
           </h1>
+
           <p>
-            XyeCraft is a modern block-building survival game for PC with a clean desktop experience,
-            fast setup, and a familiar voxel-inspired vibe. Download the latest installer and jump in.
+            Xyecraft brings the feel of classic mobile-style block building to desktop, with a simple installer,
+            familiar gameplay, and ongoing updates for PC players.
           </p>
 
           <div class="hero-actions">
@@ -479,80 +603,97 @@
               Download Installer
             </a>
             <a class="button-secondary" href="#install">
-              How to Install
+              Installation Guide
             </a>
           </div>
 
           <div class="pill-row">
-            <span class="pill">Easy installer</span>
-            <span class="pill">Windows ready</span>
-            <span class="pill">Voxel-inspired style</span>
+            <span class="pill">Windows installer</span>
+            <span class="pill">Frequent updates</span>
+            <span class="pill">Classic blocky feel</span>
           </div>
         </div>
 
         <div class="hero-side">
           <div class="panel">
-            <div class="mini-label">Current Release</div>
+            <div class="mini-label">Current Build</div>
             <p class="stat">v1.0.0 Beta</p>
-            <p>Initial public release with the first downloadable Windows installer.</p>
+            <p>Latest public build available now as a direct Windows installer download.</p>
           </div>
 
           <div class="panel">
-            <div class="mini-label">What to Expect</div>
+            <div class="mini-label">About</div>
             <p>
-              A polished launcher-style install flow, quick setup, and a subtle blocky aesthetic that
-              nods to classic sandbox games without overdoing it.
+              A PC project inspired by Minecraft Pocket Edition, with desktop controls, visual fixes,
+              and new gameplay additions in active development.
             </p>
           </div>
 
           <div class="panel">
-            <div class="mini-label">Platform</div>
-            <p>Designed for Windows PCs. Grab the latest build from GitHub Releases.</p>
+            <div class="mini-label">Download</div>
+            <p>Use the main download button to open the installer file in a new tab and start setup.</p>
           </div>
         </div>
       </section>
 
       <div class="banner">
         <div>
-          <strong>Latest update:</strong> sheep colors, direct connect, improved animation, and rendering optimizations.
+          <strong>Latest update:</strong> improved animation, optimized water rendering, direct connect, and new sheep breeding.
         </div>
-        <a class="button-secondary" href="#patch-notes">See patch notes</a>
+        <a class="button-secondary" href="#patch-notes">View changes</a>
       </div>
 
       <section class="showcase">
         <div class="feature">
+          <div class="pixel-corners">
+            <span></span><span></span><span></span><span></span>
+          </div>
           <h3>Inspired by Minecraft Pocket Edition</h3>
           <p>
-            Built with inspiration from Minecraft Pocket Edition and adapted into a desktop PC experience.
+            Built around the style and feel of Minecraft Pocket Edition, then adapted into a desktop PC version.
           </p>
         </div>
+
         <div class="feature">
-          <h3>Modern PC port feel</h3>
+          <div class="pixel-corners">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <h3>Made for PC</h3>
           <p>
-            Clean spacing, glassy cards, and responsive sections make the project feel modern while keeping a blocky charm.
+            Designed to be easy to install and easy to launch, with a cleaner desktop-friendly experience.
           </p>
         </div>
+
         <div class="feature">
-          <h3>Quick download flow</h3>
+          <div class="pixel-corners">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <h3>Active improvements</h3>
           <p>
-            Straight to the latest release, so players always land on the newest installer.
+            Regular fixes, rendering updates, and gameplay additions keep each new build moving forward.
           </p>
         </div>
       </section>
 
       <section class="section grid-2">
         <div class="note" id="install">
+          <div class="pixel-corners">
+            <span></span><span></span><span></span><span></span>
+          </div>
           <h2>Installation</h2>
-          <p>Getting started only takes a minute:</p>
+          <p>To get started:</p>
           <ol class="steps">
-            <li>Click the download button to open the latest GitHub release.</li>
-            <li>Download the Windows installer.</li>
-            <li>Run the setup file and follow the installer steps.</li>
-            <li>Launch XyeCraft from your desktop or Start Menu shortcut.</li>
+            <li>Click the download button above.</li>
+            <li>Save the installer file to your PC.</li>
+            <li>Run the installer and complete setup.</li>
+            <li>Open Xyecraft from your desktop or Start Menu.</li>
           </ol>
         </div>
 
         <div class="note" id="patch-notes">
+          <div class="pixel-corners">
+            <span></span><span></span><span></span><span></span>
+          </div>
           <h2>Patch Notes</h2>
           <p><strong>Version 1.0.0 Beta</strong></p>
           <ul class="patch-list">
@@ -574,7 +715,7 @@
         <span class="logo-block">
           <span></span><span></span><span></span><span></span>
         </span>
-        Xyki Games © 2026
+        © Xyki Games 2026
       </p>
     </footer>
   </div>
